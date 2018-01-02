@@ -7,5 +7,18 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Raine Virta <raine.virta@reaktor.com>",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@std/esm": "^0.18.0",
+    "express": "^4.16.2",
+    "nodegit": "^0.20.3",
+    "rimraf": "^2.6.2"
+  },
+  "engines": {
+    "node": "9.x"
+  },
+  "@std/esm": {
+    "cjs": true,
+    "esm": "js"
+  }
 }
