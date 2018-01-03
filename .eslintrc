@@ -1,0 +1,21 @@
+{
+  "env": {
+    "es6": true,
+    "node": true
+  },
+  "extends": "eslint:recommended",
+  "plugins": [
+    "import"
+  ],
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": 8,
+    "ecmaFeatures": {
+      "modules": true,
+      "experimentalObjectRestSpread": true
+    }
+  },
+  "rules": {
+    "no-unused-vars": ["error", { "vars": "all", "args": "after-used", "varsIgnorePattern": "^_" }]
+  }
+}
