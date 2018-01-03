@@ -3,15 +3,25 @@ import express from 'express'
 import serveIndex from 'serve-index'
 import * as git from './git'
 import log from './logger'
+import R from 'ramda'
 
-const {
-  REPOSITORY_URL,
-  REPOSITORY_PATH,
-  PORT
-} = process.env
+const getEnvProp = (prop) =>
+  process.env[prop] != null ? process.env[prop] : (() => {
+    throw new Error(`${prop} not set in env`)
+  })()
 
-app.listen(PORT, () =>
-  log.info(`app listening on port ${PORT}!`))
+const [
+  port,
+  repoUrl,
+  repoPath
+] = R.map(getEnvProp, [
+  'PORT',
+  'REPOSITORY_URL',
+  'REPOSITORY_PATH'
+])
+
+app.listen(port, () =>
+  log.info(`app listening on port ${port}!`))
 
 const cloneOrOpenRepository = (url, path) =>
   git.open(path)
@@ -30,17 +40,17 @@ const updateRepoWithHardReset = async (repo) => {
 }
 
 ;(async () => {
-  const repo = await cloneOrOpenRepository(REPOSITORY_URL, REPOSITORY_PATH)
+  const repo = await cloneOrOpenRepository(repoUrl, repoPath)
   await updateRepoWithHardReset(repo)
 
   app.use('/',
-    express.static(REPOSITORY_PATH),
-    serveIndex(REPOSITORY_PATH, {
+    express.static(repoPath),
+    serveIndex(repoPath, {
       icons: true
     })
   )
 
-  log.info(`serving ${REPOSITORY_PATH} at /`)
+  log.info(`serving ${repoPath} at /`)
 })()
 .catch((err) => {
   log.error(err.stack)
