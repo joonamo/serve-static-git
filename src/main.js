@@ -1,4 +1,3 @@
-import app from './app'
 import express from 'express'
 import serveIndex from 'serve-index'
 import * as git from './git'
@@ -20,6 +19,7 @@ const [
   'REPOSITORY_PATH'
 ])
 
+const app = express()
 app.listen(port, () =>
   log.info(`app listening on port ${port}!`))
 
@@ -48,8 +48,7 @@ const updateRepoWithHardReset = async (repo) => {
     express.static(repoPath),
     serveIndex(repoPath, {
       icons: true
-    })
-  )
+    }))
 
   log.info(`serving ${repoPath} at /`)
 })()
