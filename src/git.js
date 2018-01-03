@@ -1,24 +1,27 @@
 import git from 'nodegit'
 
-const { Repository, Clone, Reset } = git
+const { Repository, Clone, Reset, Cred } = git
 
-// import rimraf from 'rimraf'
-// rimraf.sync(REPOSITORY_PATH)
+const buildCallbacks = ({ pubKey, privKey }) => ({
+  certificateCheck: () => 1,
+  credentials: (repoUrl, username) =>
+    Cred.sshKeyMemoryNew(username, pubKey, privKey, '')
+})
 
-const callbacks = {
-  certificateCheck: () => 1
-}
-
-export const clone = (url, path) =>
+export const clone = (url, path, creds) =>
   Clone(url, path, {
-    fetchOpts: { callbacks }
+    fetchOpts: {
+      callbacks: buildCallbacks(creds)
+    }
   })
 
 export const open = (path) =>
   Repository.open(path)
 
-export const fetchOrigin = (repo) =>
-  repo.fetch('origin', { callbacks })
+export const fetchOrigin = (repo, creds) =>
+  repo.fetch('origin', {
+    callbacks: buildCallbacks(creds)
+  })
 
 export const hardReset = (repo, target) =>
   Reset.reset(repo, target, Reset.TYPE.HARD)
