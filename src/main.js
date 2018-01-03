@@ -17,6 +17,7 @@ const getConfig = (props) =>
   R.zipObj(props, R.map(getEnvProp, props))
 
 const config = getConfig([
+  'BASE_URL',
   'PORT',
   'REPO_URL',
   'REPO_PATH',
@@ -31,6 +32,7 @@ const maskKeys = (keys, obj) => R.mapObjIndexed((val, key) => SECRETS.includes(k
 log.info(`config ${stringify(maskKeys(SECRETS, config))}`)
 
 const [
+  baseUrl,
   port,
   repoUrl,
   repoPath,
@@ -76,7 +78,7 @@ const updateRepoWithHardReset = async (repo, creds) => {
   app.use(gauth({
     clientID: gauthClientId,
     clientSecret: gauthClientSecret,
-    clientDomain: 'http://localhost:3000',
+    clientDomain: baseUrl,
     allowedDomains: ['reaktor.fi', 'reaktor.com']
   }))
 
