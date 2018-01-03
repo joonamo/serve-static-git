@@ -27,6 +27,7 @@ const cloneOrOpenRepository = (url, path) =>
   git.open(path)
     .catch((err) => {
       log.error(err.stack)
+      log.info(`cloning ${url} to ${path}`)
       return git.clone(url, path)
     })
 
