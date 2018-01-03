@@ -49,6 +49,19 @@ app.use(bodyParser.json())
 app.listen(port, () =>
   log.info(`app listening on port ${port}!`))
 
+app.use(session({
+  secret: 'lol',
+  resave: false,
+  saveUninitialized: true
+}))
+
+app.use(gauth({
+  clientID: gauthClientId,
+  clientSecret: gauthClientSecret,
+  clientDomain: baseUrl,
+  allowedDomains: gauthAllowedDomains.split(',')
+}))
+
 const cloneOrOpenRepository = (url, path, creds) =>
   git.open(path)
     .catch((err) => {
@@ -70,19 +83,6 @@ const updateRepoWithHardReset = async (repo, creds) => {
   const creds = { pubKey, privKey }
   const repo = await cloneOrOpenRepository(repoUrl, repoPath, creds)
   await updateRepoWithHardReset(repo, creds)
-
-  app.use(session({
-    secret: 'lol',
-    resave: false,
-    saveUninitialized: true
-  }))
-
-  app.use(gauth({
-    clientID: gauthClientId,
-    clientSecret: gauthClientSecret,
-    clientDomain: baseUrl,
-    allowedDomains: gauthAllowedDomains.split(',')
-  }))
 
   app.post('/update', async (req, res) => {
     log.info(`update webhook endpoint triggered ${stringify(req.body)}`)
