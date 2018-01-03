@@ -59,9 +59,9 @@ const updateRepoWithHardReset = async (repo, creds) => {
   const repo = await cloneOrOpenRepository(repoUrl, repoPath, creds)
   await updateRepoWithHardReset(repo, creds)
 
-  app.post('/update', (req, res) => {
+  app.post('/update', async (req, res) => {
     log.info(`update webhook endpoint triggered ${stringify(req.body)}`)
-    updateRepoWithHardReset(repo, creds)
+    await updateRepoWithHardReset(repo, creds)
     res.status(200).end()
   })
 
