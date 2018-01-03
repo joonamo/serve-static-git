@@ -24,7 +24,8 @@ const config = getConfig([
   'SSH_PUBLIC_KEY',
   'SSH_PRIVATE_KEY',
   'GOOGLE_OAUTH_CLIENT_ID',
-  'GOOGLE_OAUTH_CLIENT_SECRET'
+  'GOOGLE_OAUTH_CLIENT_SECRET',
+  'GOOGLE_OAUTH_ALLOWED_DOMAINS'
 ])
 
 const SECRETS = ['SSH_PRIVATE_KEY', 'GOOGLE_OAUTH_CLIENT_SECRET']
@@ -39,7 +40,8 @@ const [
   pubKey,
   privKey,
   gauthClientId,
-  gauthClientSecret
+  gauthClientSecret,
+  gauthAllowedDomains
 ] = R.values(config)
 
 const app = express()
@@ -79,7 +81,7 @@ const updateRepoWithHardReset = async (repo, creds) => {
     clientID: gauthClientId,
     clientSecret: gauthClientSecret,
     clientDomain: baseUrl,
-    allowedDomains: ['reaktor.fi', 'reaktor.com']
+    allowedDomains: gauthAllowedDomains.split(',')
   }))
 
   app.post('/update', async (req, res) => {
