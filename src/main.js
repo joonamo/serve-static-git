@@ -48,7 +48,7 @@ app.listen(port, () =>
 const cloneOrOpenRepository = (url, path, creds) =>
   git.open(path)
     .catch((err) => {
-      log.error(err.stack)
+      log.warn(err.stack)
       log.info(`cloning ${url} to ${path}`)
       return git.clone(url, path, creds)
     })
