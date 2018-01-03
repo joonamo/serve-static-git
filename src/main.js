@@ -1,6 +1,8 @@
 import express from 'express'
 import serveIndex from 'serve-index'
+import bodyParser from 'body-parser'
 import * as git from './git'
+import stringify from 'json-stringify-pretty-compact'
 import log from './logger'
 import R from 'ramda'
 
@@ -20,6 +22,7 @@ const [
 ])
 
 const app = express()
+app.use(bodyParser.json())
 app.listen(port, () =>
   log.info(`app listening on port ${port}!`))
 
@@ -43,6 +46,12 @@ const updateRepoWithHardReset = async (repo) => {
 ;(async () => {
   const repo = await cloneOrOpenRepository(repoUrl, repoPath)
   await updateRepoWithHardReset(repo)
+
+  app.post('/update', (req, res) => {
+    log.info(`update webhook endpoint triggered ${stringify(req.body)}`)
+    updateRepoWithHardReset(repo)
+    res.status(200).end()
+  })
 
   app.use('/',
     express.static(repoPath),
