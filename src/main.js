@@ -1,9 +1,11 @@
 import express from 'express'
 import serveIndex from 'serve-index'
 import bodyParser from 'body-parser'
+import session from 'express-session'
 import * as git from './git'
 import stringify from 'json-stringify-pretty-compact'
 import log from './logger'
+import gauth from '@reaktor/express-gauth'
 import R from 'ramda'
 
 const getEnvProp = (prop) =>
@@ -19,17 +21,23 @@ const config = getConfig([
   'REPO_URL',
   'REPO_PATH',
   'SSH_PUBLIC_KEY',
-  'SSH_PRIVATE_KEY'
+  'SSH_PRIVATE_KEY',
+  'GOOGLE_OAUTH_CLIENT_ID',
+  'GOOGLE_OAUTH_CLIENT_SECRET'
 ])
 
-log.info(`config ${stringify(R.omit(['SSH_PRIVATE_KEY'], config))}`)
+const SECRETS = ['SSH_PRIVATE_KEY', 'GOOGLE_OAUTH_CLIENT_SECRET']
+const maskKeys = (keys, obj) => R.mapObjIndexed((val, key) => SECRETS.includes(key) ? '[secret]' : val, obj)
+log.info(`config ${stringify(maskKeys(['SSH_PRIVATE_KEY', 'GOOGLE_OAUTH_CLIENT_SECRET'], config))}`)
 
 const [
   port,
   repoUrl,
   repoPath,
   pubKey,
-  privKey
+  privKey,
+  gauthClientId,
+  gauthClientSecret
 ] = R.values(config)
 
 const app = express()
@@ -58,6 +66,19 @@ const updateRepoWithHardReset = async (repo, creds) => {
   const creds = { pubKey, privKey }
   const repo = await cloneOrOpenRepository(repoUrl, repoPath, creds)
   await updateRepoWithHardReset(repo, creds)
+
+  app.use(session({
+    secret: 'lol',
+    resave: false,
+    saveUninitialized: true
+  }))
+
+  app.use(gauth({
+    clientID: gauthClientId,
+    clientSecret: gauthClientSecret,
+    clientDomain: 'http://localhost:3000',
+    allowedDomains: ['reaktor.fi', 'reaktor.com']
+  }))
 
   app.post('/update', async (req, res) => {
     log.info(`update webhook endpoint triggered ${stringify(req.body)}`)
