@@ -28,7 +28,7 @@ const config = getConfig([
 
 const SECRETS = ['SSH_PRIVATE_KEY', 'GOOGLE_OAUTH_CLIENT_SECRET']
 const maskKeys = (keys, obj) => R.mapObjIndexed((val, key) => SECRETS.includes(key) ? '[secret]' : val, obj)
-log.info(`config ${stringify(maskKeys(['SSH_PRIVATE_KEY', 'GOOGLE_OAUTH_CLIENT_SECRET'], config))}`)
+log.info(`config ${stringify(maskKeys(SECRETS, config))}`)
 
 const [
   port,
