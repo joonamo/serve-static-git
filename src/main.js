@@ -61,7 +61,7 @@ const updateRepoWithHardReset = async (repo, creds) => {
 
   app.post('/update', (req, res) => {
     log.info(`update webhook endpoint triggered ${stringify(req.body)}`)
-    updateRepoWithHardReset(repo)
+    updateRepoWithHardReset(repo, creds)
     res.status(200).end()
   })
 
