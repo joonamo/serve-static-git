@@ -2,35 +2,12 @@ import express from 'express'
 import serveIndex from 'serve-index'
 import bodyParser from 'body-parser'
 import session from 'express-session'
-import * as git from './git'
-import stringify from 'json-stringify-pretty-compact'
-import log from './logger'
-import gauth from '@reaktor/express-gauth'
 import R from 'ramda'
-
-const getEnvProp = (prop) =>
-  process.env[prop] != null ? process.env[prop] : (() => {
-    throw new Error(`${prop} not set in env`)
-  })()
-
-const getConfig = (props) =>
-  R.zipObj(props, R.map(getEnvProp, props))
-
-const config = getConfig([
-  'BASE_URL',
-  'PORT',
-  'REPO_URL',
-  'REPO_PATH',
-  'SSH_PUBLIC_KEY',
-  'SSH_PRIVATE_KEY',
-  'GOOGLE_OAUTH_CLIENT_ID',
-  'GOOGLE_OAUTH_CLIENT_SECRET',
-  'GOOGLE_OAUTH_ALLOWED_DOMAINS'
-])
-
-const SECRETS = ['SSH_PRIVATE_KEY', 'GOOGLE_OAUTH_CLIENT_SECRET']
-const maskKeys = (keys, obj) => R.mapObjIndexed((val, key) => SECRETS.includes(key) ? '[secret]' : val, obj)
-log.info(`config ${stringify(maskKeys(SECRETS, config))}`)
+import gauth from '@reaktor/express-gauth'
+import stringify from 'json-stringify-pretty-compact'
+import * as git from './git'
+import log from './logger'
+import config from './config'
 
 const [
   baseUrl,
