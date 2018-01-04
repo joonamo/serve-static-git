@@ -25,6 +25,7 @@ const setup = async (app, config) => {
 
   const repo = await setupRepo(path, url, creds)
 
+  // TODO: Verify POST_WEBHOOK_SECRET
   app.post('/update', async (req, res) => {
     log.info(`update webhook endpoint triggered ${stringify(req.body)}`)
     await git.fetchAndHardReset(repo, creds)
