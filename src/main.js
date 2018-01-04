@@ -39,31 +39,14 @@ app.use(gauth({
   allowedDomains: gauthAllowedDomains.split(',')
 }))
 
-const cloneOrOpenRepository = (url, path, creds) =>
-  git.open(path)
-    .catch((err) => {
-      log.warn(err.stack)
-      log.info(`cloning ${url} to ${path}`)
-      return git.clone(url, path, creds)
-    })
-
-const updateRepoWithHardReset = async (repo, creds) => {
-  log.debug(`fetching origin`)
-  await git.fetchOrigin(repo, creds)
-  const commit = await repo.getBranchCommit('origin/master')
-  log.debug(`latest commit on origin/master ${commit}`)
-  await git.hardReset(repo, commit)
-  log.debug(`reset repo to ${commit}`)
-}
-
 ;(async () => {
   const creds = { pubKey, privKey }
-  const repo = await cloneOrOpenRepository(repoUrl, repoPath, creds)
-  await updateRepoWithHardReset(repo, creds)
+  const repo = await git.openOrClone(repoUrl, repoPath, creds)
+  await git.fetchAndHardReset(repo, creds)
 
   app.post('/update', async (req, res) => {
     log.info(`update webhook endpoint triggered ${stringify(req.body)}`)
-    await updateRepoWithHardReset(repo, creds)
+    await git.fetchAndHardReset(repo, creds)
     res.status(200).end()
   })
 
