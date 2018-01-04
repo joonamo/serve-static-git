@@ -1,4 +1,5 @@
 import git from 'nodegit'
+import stringify from 'json-stringify-pretty-compact'
 import log from './logger'
 
 const { Repository, Clone, Reset, Cred } = git
@@ -6,7 +7,14 @@ const { Repository, Clone, Reset, Cred } = git
 const buildCallbacks = ({ pubKey, privKey }) => ({
   certificateCheck: () => 1,
   credentials: (repoUrl, username) =>
-    Cred.sshKeyMemoryNew(username, pubKey, privKey, '')
+    Cred.sshKeyMemoryNew(username, pubKey, privKey, ''),
+  transferProgress: (stats) => {
+    log.debug('progress ' + stringify({
+      received: stats.receivedObjects(),
+      indexed: stats.indexedObjects(),
+      total: stats.totalObjects()
+    }))
+  }
 })
 
 export const clone = (url, path, creds) =>
