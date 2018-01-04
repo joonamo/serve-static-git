@@ -11,8 +11,6 @@ import unless from './unless'
 
 const app = express()
 app.use(bodyParser.json())
-app.listen(config.PORT, () =>
-  log.info(`app listening on port ${config.PORT}!`))
 
 app.use(unless('POST', '/update', session({
   secret: config.SESSION_SECRET,
@@ -27,7 +25,7 @@ app.use(unless('POST', '/update', gauth({
   allowedDomains: config.GOOGLE_OAUTH_ALLOWED_DOMAINS.split(',')
 })))
 
-;(async () => {
+const setup = async () => {
   const repoPath = config.REPO_PATH
   const repoUrl = config.REPO_URL
   const creds = {
@@ -50,10 +48,15 @@ app.use(unless('POST', '/update', gauth({
     }))
 
   log.info(`serving ${repoPath} at /`)
-})()
-.catch((err) => {
-  log.error(err.stack)
-})
+
+  app.listen(config.PORT, () =>
+    log.info(`app listening on port ${config.PORT}!`))
+}
+
+setup()
+  .catch((err) => {
+    log.error(err.stack)
+  })
 
 process.on('unhandledRejection', (err) => {
   throw err
