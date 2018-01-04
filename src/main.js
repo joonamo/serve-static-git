@@ -8,6 +8,7 @@ import stringify from 'json-stringify-pretty-compact'
 import * as git from './git'
 import log from './logger'
 import config from './config'
+import unless from './unless'
 
 const [
   baseUrl,
@@ -26,18 +27,18 @@ app.use(bodyParser.json())
 app.listen(port, () =>
   log.info(`app listening on port ${port}!`))
 
-app.use(session({
+app.use(unless('/update', session({
   secret: 'lol',
   resave: false,
   saveUninitialized: true
-}))
+})))
 
-app.use(gauth({
+app.use(unless('/update', gauth({
   clientID: gauthClientId,
   clientSecret: gauthClientSecret,
   clientDomain: baseUrl,
   allowedDomains: gauthAllowedDomains.split(',')
-}))
+})))
 
 ;(async () => {
   const creds = { pubKey, privKey }
