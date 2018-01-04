@@ -19,7 +19,8 @@ const [
   privKey,
   gauthClientId,
   gauthClientSecret,
-  gauthAllowedDomains
+  gauthAllowedDomains,
+  sessionSecret
 ] = R.values(config)
 
 const app = express()
@@ -28,7 +29,7 @@ app.listen(port, () =>
   log.info(`app listening on port ${port}!`))
 
 app.use(unless('/update', session({
-  secret: 'lol',
+  secret: sessionSecret,
   resave: false,
   saveUninitialized: true
 })))
