@@ -14,14 +14,12 @@
   "dependencies": {
     "@reaktor/express-gauth": "^2.0.1",
     "@std/esm": "^0.18.0",
-    "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
     "express-session": "^1.15.6",
     "json-stringify-pretty-compact": "^1.0.4",
     "nodegit": "^0.20.3",
     "ramda": "^0.25.0",
-    "rimraf": "^2.6.2",
     "serve-index": "^1.9.1",
     "winston": "^3.0.0-rc1"
   },
