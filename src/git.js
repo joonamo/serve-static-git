@@ -41,5 +41,5 @@ export const openOrClone = (url, path, creds) =>
     .catch((err) => {
       log.warn(err.stack)
       log.info(`cloning ${url} to ${path}`)
-      return git.clone(url, path, creds)
+      return clone(url, path, creds)
     })
