@@ -1,5 +1,5 @@
-export default (path, middleware) =>
+export default (method, path, middleware) =>
   (req, res, next) =>
-    path === req.path
+    req.method === 'POST' && path === req.path
       ? next()
       : middleware(req, res, next)

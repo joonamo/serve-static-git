@@ -14,13 +14,13 @@ app.use(bodyParser.json())
 app.listen(config.PORT, () =>
   log.info(`app listening on port ${config.PORT}!`))
 
-app.use(unless('/update', session({
+app.use(unless('POST', '/update', session({
   secret: config.SESSION_SECRET,
   resave: false,
   saveUninitialized: true
 })))
 
-app.use(unless('/update', gauth({
+app.use(unless('POST', '/update', gauth({
   clientID: config.GOOGLE_OAUTH_CLIENT_ID,
   clientSecret: config.GOOGLE_OAUTH_CLIENT_SECRET,
   clientDomain: config.BASE_URL,
