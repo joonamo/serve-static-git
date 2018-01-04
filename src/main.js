@@ -2,7 +2,6 @@ import express from 'express'
 import serveIndex from 'serve-index'
 import bodyParser from 'body-parser'
 import session from 'express-session'
-import R from 'ramda'
 import gauth from '@reaktor/express-gauth'
 import stringify from 'json-stringify-pretty-compact'
 import * as git from './git'
@@ -10,39 +9,31 @@ import log from './logger'
 import config from './config'
 import unless from './unless'
 
-const [
-  baseUrl,
-  port,
-  repoUrl,
-  repoPath,
-  pubKey,
-  privKey,
-  gauthClientId,
-  gauthClientSecret,
-  gauthAllowedDomains,
-  sessionSecret
-] = R.values(config)
-
 const app = express()
 app.use(bodyParser.json())
-app.listen(port, () =>
-  log.info(`app listening on port ${port}!`))
+app.listen(config.PORT, () =>
+  log.info(`app listening on port ${config.PORT}!`))
 
 app.use(unless('/update', session({
-  secret: sessionSecret,
+  secret: config.SESSION_SECRET,
   resave: false,
   saveUninitialized: true
 })))
 
 app.use(unless('/update', gauth({
-  clientID: gauthClientId,
-  clientSecret: gauthClientSecret,
-  clientDomain: baseUrl,
-  allowedDomains: gauthAllowedDomains.split(',')
+  clientID: config.GOOGLE_OAUTH_CLIENT_ID,
+  clientSecret: config.GOOGLE_OAUTH_CLIENT_SECRET,
+  clientDomain: config.BASE_URL,
+  allowedDomains: config.GOOGLE_OAUTH_ALLOWED_DOMAINS.split(',')
 })))
 
 ;(async () => {
-  const creds = { pubKey, privKey }
+  const repoPath = config.REPO_PATH
+  const repoUrl = config.REPO_URL
+  const creds = {
+    pubKey: config.SSH_PUBLIC_KEY,
+    privKey: config.SSH_PRIVATE_KEY
+  }
   const repo = await git.openOrClone(repoUrl, repoPath, creds)
   await git.fetchAndHardReset(repo, creds)
 
