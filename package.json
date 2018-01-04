@@ -1,5 +1,5 @@
 {
-  "name": "heroku-git-static",
+  "name": "serve-static-git",
   "version": "1.0.0",
   "description": "Mirror a private git repo on Heroku (or elsewhere) behind Google login",
   "main": "index.js",
