@@ -18,7 +18,7 @@ const getConfig = (props) =>
   R.zipObj(props, R.map(getEnvProp, props))
 
 const maskKeys = (keys, obj) =>
-  R.mapObjIndexed((val, key) => SECRETS.includes(key) ? '[secret]' : val, obj)
+  R.mapObjIndexed((val, key) => keys.includes(key) ? '[secret]' : val, obj)
 
 const config = getConfig([
   'BASE_URL',
