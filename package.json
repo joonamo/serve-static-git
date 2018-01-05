@@ -10,6 +10,7 @@
     "lint": "eslint src/"
   },
   "author": "Raine Virta <raine.virta@reaktor.com>",
+  "repository": "github:reaktor/serve-static-git",
   "license": "ISC",
   "dependencies": {
     "@reaktor/express-gauth": "^2.0.1",
