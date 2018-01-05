@@ -7,7 +7,7 @@ Think GitHub Pages but for private stuff.
 ## features
 
 - Updates the local copy by listening to an endpoint configured to a push webhook.
-- SSH public key authentication using deploy keys etc.
+- Authenticates with git using SSH public key authentication (good with github deploy keys)
 - Directory listings with [`expressjs/serve-index`](https://github.com/expressjs/serve-index).
 
 ## deployment on heroku using a private github repo as origin
