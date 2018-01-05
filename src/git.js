@@ -24,9 +24,6 @@ export const clone = (url, path, creds) =>
     }
   })
 
-export const open = (path) =>
-  Repository.open(path)
-
 export const fetchOrigin = (repo, creds) =>
   repo.fetch('origin', {
     callbacks: buildCallbacks(creds)
@@ -45,7 +42,7 @@ export const fetchAndHardReset = async (repo, creds) => {
 }
 
 export const openOrClone = (url, path, creds) =>
-  open(path)
+  Repository.open(path)
     .catch((err) => {
       log.warn(err.stack)
       log.info(`cloning ${url} to ${path}`)
