@@ -17,19 +17,19 @@ const buildCallbacks = ({ pubKey, privKey }) => ({
   }
 })
 
-export const clone = (url, path, creds) =>
+const clone = (url, path, creds) =>
   Clone(url, path, {
     fetchOpts: {
       callbacks: buildCallbacks(creds)
     }
   })
 
-export const fetchOrigin = (repo, creds) =>
+const fetchOrigin = (repo, creds) =>
   repo.fetch('origin', {
     callbacks: buildCallbacks(creds)
   })
 
-export const hardReset = (repo, target) =>
+const hardReset = (repo, target) =>
   Reset.reset(repo, target, Reset.TYPE.HARD)
 
 export const fetchAndHardReset = async (repo, creds) => {
