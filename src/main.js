@@ -4,6 +4,7 @@ import bodyParser from 'body-parser'
 import session from 'express-session'
 import gauth from '@reaktor/express-gauth'
 import stringify from 'json-stringify-pretty-compact'
+import xhub from 'express-x-hub'
 import * as git from './git'
 import log from './logger'
 import config from './config'
@@ -25,11 +26,15 @@ const setup = async (app, config) => {
 
   const repo = await setupRepo(path, url, creds)
 
-  // TODO: Verify POST_WEBHOOK_SECRET
   app.post('/update', async (req, res) => {
     log.info(`update webhook endpoint triggered ${stringify(req.body)}`)
-    await git.fetchAndHardReset(repo, creds)
-    res.status(200).end()
+    if (req.isXHub && req.isXHubValid()) {
+      await git.fetchAndHardReset(repo, creds)
+      res.status(200).end()
+    } else {
+      log.warn(`invalid or non-existent x-hub-signature, headers: ${stringify(req.headers)}`)
+      res.status(401).end()
+    }
   })
 
   app.use('/',
@@ -46,6 +51,7 @@ const setup = async (app, config) => {
 
 const app = express()
 
+app.use(xhub({ algorithm: 'sha1', secret: config.POST_WEBHOOK_SECRET }))
 app.use(bodyParser.json())
 app.use(unless('POST', '/update', session({
   secret: config.SESSION_SECRET,

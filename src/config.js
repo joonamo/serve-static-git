@@ -5,7 +5,8 @@ import log from './logger'
 const SECRETS = [
   'SSH_PRIVATE_KEY',
   'GOOGLE_OAUTH_CLIENT_SECRET',
-  'SESSION_SECRET'
+  'SESSION_SECRET',
+  'POST_WEBHOOK_SECRET'
 ]
 
 const getEnvProp = (prop) =>
@@ -29,7 +30,8 @@ const config = getConfig([
   'GOOGLE_OAUTH_CLIENT_ID',
   'GOOGLE_OAUTH_CLIENT_SECRET',
   'GOOGLE_OAUTH_ALLOWED_DOMAINS',
-  'SESSION_SECRET'
+  'SESSION_SECRET',
+  'POST_WEBHOOK_SECRET'
 ])
 
 log.info(`config ${stringify(maskKeys(SECRETS, config))}`)
