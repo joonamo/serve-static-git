@@ -15,9 +15,9 @@ Think GitHub Pages but for private stuff.
 1. [Obtain credentials for Google OAuth 2.0](https://developers.google.com/identity/protocols/OAuth2)
 2. Create a deploy key for git authentication
 
-  ```sh
-  $ ssh-keygen -t rsa -f deploykey
-  ```
+    ```sh
+    $ ssh-keygen -t rsa -f deploykey
+    ```
 
 3. Add the deploy key to your private repo
    (https://github.com/user/repo/settings/keys)
@@ -31,22 +31,22 @@ Think GitHub Pages but for private stuff.
 
 5. Create and configure the heroku app
 
-```sh
-$ git clone https://github.com/reaktor/serve-static-git && cd serve-static-git
-$ heroku apps:create myapp
-$ heroku config:set -a myapp \
-  BASE_URL='http://myapp.herokuapp.com' \
-  REPO_PATH='/app/hello-world' \
-  REPO_URL='git@github.com:raine/hello-world.git' \
-  SSH_PUBLIC_KEY="$(cat deploykey.pub)" \
-  SSH_PRIVATE_KEY="$(cat deploykey)" \
-  GOOGLE_OAUTH_CLIENT_ID='...' \
-  GOOGLE_OAUTH_CLIENT_SECRET='...' \
-  GOOGLE_OAUTH_ALLOWED_DOMAINS='mycompany.com,mycompany.fi' \
-  SESSION_SECRET='...' \
-  POST_WEBHOOK_SECRET='...'
-$ git push heroku master
-```
+    ```sh
+    $ git clone https://github.com/reaktor/serve-static-git && cd serve-static-git
+    $ heroku apps:create myapp
+    $ heroku config:set -a myapp \
+      BASE_URL='http://myapp.herokuapp.com' \
+      REPO_PATH='/app/hello-world' \
+      REPO_URL='git@github.com:raine/hello-world.git' \
+      SSH_PUBLIC_KEY="$(cat deploykey.pub)" \
+      SSH_PRIVATE_KEY="$(cat deploykey)" \
+      GOOGLE_OAUTH_CLIENT_ID='...' \
+      GOOGLE_OAUTH_CLIENT_SECRET='...' \
+      GOOGLE_OAUTH_ALLOWED_DOMAINS='mycompany.com,mycompany.fi' \
+      SESSION_SECRET='...' \
+      POST_WEBHOOK_SECRET='...'
+    $ git push heroku master
+    ```
 
 6. Go to http://myapp.herokuapp.com. After Google login, directory listing of
    the repo should be visible. :tada:
