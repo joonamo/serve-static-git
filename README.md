@@ -42,7 +42,7 @@ Think GitHub Pages but for private stuff.
       SSH_PRIVATE_KEY="$(cat deploykey)" \
       GOOGLE_OAUTH_CLIENT_ID='...' \
       GOOGLE_OAUTH_CLIENT_SECRET='...' \
-      GOOGLE_OAUTH_ALLOWED_DOMAINS='mycompany.com,mycompany.fi' \
+      GOOGLE_OAUTH_ALLOWED_DOMAIN='mycompany.com' \
       SESSION_SECRET='...' \
       POST_WEBHOOK_SECRET='...'
     $ git push heroku master
@@ -68,7 +68,7 @@ $ export \
   SSH_PRIVATE_KEY="$(cat deploykey)" \
   GOOGLE_OAUTH_CLIENT_ID='...' \
   GOOGLE_OAUTH_CLIENT_SECRET='...' \
-  GOOGLE_OAUTH_ALLOWED_DOMAINS='reaktor.fi,reaktor.com' \
+  GOOGLE_OAUTH_ALLOWED_DOMAIN='reaktor.fi' \
   SESSION_SECRET='...' \
   POST_WEBHOOK_SECRET='...'
 $ npm run watch

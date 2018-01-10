@@ -63,10 +63,10 @@ app.use(unless('POST', '/update', gauth({
   clientID: config.GOOGLE_OAUTH_CLIENT_ID,
   clientSecret: config.GOOGLE_OAUTH_CLIENT_SECRET,
   clientDomain: config.BASE_URL,
-  allowedDomains: config.GOOGLE_OAUTH_ALLOWED_DOMAINS.split(','),
+  allowedDomains: [config.GOOGLE_OAUTH_ALLOWED_DOMAIN],
   googleAuthorizationParams: {
     scope: ['profile', 'email'],
-    hostedDomain: 'reaktor.fi'
+    hostedDomain: config.GOOGLE_OAUTH_ALLOWED_DOMAIN
   }
 })))
 
