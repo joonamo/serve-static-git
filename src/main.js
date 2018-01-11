@@ -64,6 +64,7 @@ app.use(unless('POST', '/update', gauth({
   clientSecret: config.GOOGLE_OAUTH_CLIENT_SECRET,
   clientDomain: config.BASE_URL,
   allowedDomains: [config.GOOGLE_OAUTH_ALLOWED_DOMAIN],
+  returnToOriginalUrl: true,
   googleAuthorizationParams: {
     scope: ['profile', 'email'],
     hostedDomain: config.GOOGLE_OAUTH_ALLOWED_DOMAIN
