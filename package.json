@@ -11,7 +11,7 @@
   },
   "author": "Raine Virta <raine.virta@reaktor.com>",
   "repository": "github:reaktor/serve-static-git",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@reaktor/express-gauth": "^2.2.0-alpha.1",
     "@std/esm": "^0.18.0",
