@@ -13,7 +13,7 @@
   "repository": "github:reaktor/serve-static-git",
   "license": "MIT",
   "dependencies": {
-    "@reaktor/express-gauth": "^2.2.0-alpha.1",
+    "@reaktor/express-gauth": "^3.0.0",
     "body-parser": "^1.18.3",
     "esm": "^3.1.2",
     "express": "^4.16.4",
