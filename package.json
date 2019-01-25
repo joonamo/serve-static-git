@@ -14,16 +14,16 @@
   "license": "MIT",
   "dependencies": {
     "@reaktor/express-gauth": "^2.2.0-alpha.1",
-    "@std/esm": "^0.20.0",
-    "body-parser": "^1.18.2",
-    "express": "^4.16.2",
+    "@std/esm": "^0.26.0",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
     "express-session": "^1.15.6",
     "express-x-hub": "^1.0.4",
-    "json-stringify-pretty-compact": "^1.0.4",
+    "json-stringify-pretty-compact": "^1.2.0",
     "nodegit": "^0.24.0",
-    "ramda": "^0.25.0",
+    "ramda": "^0.26.1",
     "serve-index": "^1.9.1",
-    "winston": "^3.0.0-rc1"
+    "winston": "^3.1.0"
   },
   "engines": {
     "node": "11.x"
@@ -34,6 +34,6 @@
   },
   "devDependencies": {
     "eslint": "^5.12.1",
-    "eslint-plugin-import": "^2.8.0"
+    "eslint-plugin-import": "^2.15.0"
   }
 }
