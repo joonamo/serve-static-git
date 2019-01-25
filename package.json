@@ -20,7 +20,7 @@
     "express-session": "^1.15.6",
     "express-x-hub": "^1.0.4",
     "json-stringify-pretty-compact": "^1.0.4",
-    "nodegit": "^0.20.3",
+    "nodegit": "^0.24.0",
     "ramda": "^0.25.0",
     "serve-index": "^1.9.1",
     "winston": "^3.0.0-rc1"
@@ -33,7 +33,7 @@
     "esm": "js"
   },
   "devDependencies": {
-    "eslint": "^4.14.0",
+    "eslint": "^5.12.1",
     "eslint-plugin-import": "^2.8.0"
   }
 }
