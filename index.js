@@ -1,2 +1,2 @@
-require = require('@std/esm')(module)
+require = require('esm')(module)
 require('./src/main.js')
