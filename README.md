@@ -77,7 +77,6 @@ $ open http://localhost:3000
 
 ## caveats
 
-- Heroku file system is is ephemeral, a clone must be created on each
-  restart
+- Heroku file system is ephemeral, a clone must be created on each restart
 - Only full clones, due to `libgit2` not supporting shallow ones.
   [libgit/#3058](https://github.com/libgit2/libgit2/issues/3058)
